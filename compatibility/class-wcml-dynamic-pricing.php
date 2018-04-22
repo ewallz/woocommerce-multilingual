@@ -19,9 +19,8 @@ class WCML_Dynamic_Pricing {
 			), 10, 2 );
 			add_filter( 'dynamic_pricing_product_rules', array( $this, 'dynamic_pricing_product_rules' ) );
 			add_filter( 'wcml_calculate_totals_exception', array( $this, 'calculate_totals_exception' ) );
-		} else {
-			add_filter( 'woocommerce_product_get__pricing_rules', array( $this, 'translate_variations_in_rules' ) );
 		}
+		add_filter( 'woocommerce_product_get__pricing_rules', array( $this, 'translate_variations_in_rules' ) );
 
 	}
 
@@ -129,7 +128,7 @@ class WCML_Dynamic_Pricing {
 	function translate_variations_in_rules( $rules ) {
 		if ( is_array( $rules ) ) {
 			foreach ( $rules as $r_key => $rule ) {
-				if ( array_key_exists( 'variation_rules', $rule ) ) {
+				if ( isset( $rule['variation_rules']['args']['variations'] ) ) {
 					foreach ( $rule['variation_rules']['args']['variations'] as $i => $variation_id ) {
 						$rules[ $r_key ]['variation_rules']['args']['variations'][ $i ] = apply_filters( 'translate_object_id', $variation_id, 'product_variation', true );
 					}

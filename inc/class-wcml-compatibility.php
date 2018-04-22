@@ -68,7 +68,7 @@ class WCML_Compatibility {
 				$this->product_bundles->add_hooks();
 			} else {
 				$product_bundle_items  = new WCML_WC_Product_Bundles_Items();
-				$this->product_bundles = new WCML_Product_Bundles( $this->sitepress, $this->woocommerce_wpml, $product_bundle_items );
+				$this->product_bundles = new WCML_Product_Bundles( $this->sitepress, $this->woocommerce_wpml, $product_bundle_items, $this->wpdb );
 			}
 		}
 
@@ -79,7 +79,7 @@ class WCML_Compatibility {
 
 		// Product Add-ons
 		if ( class_exists( 'Product_Addon_Display' ) ) {
-			$this->product_addons = new WCML_Product_Addons( $this->sitepress );
+			$this->product_addons = new WCML_Product_Addons( $this->sitepress, $this->woocommerce_wpml->settings['enable_multi_currency'] );
 			$this->product_addons->add_hooks();
 		}
 
@@ -89,7 +89,8 @@ class WCML_Compatibility {
 		}
 		//Store Exporter plugin
 		if ( defined( 'WOO_CE_PATH' ) ) {
-			$this->wc_exporter = new WCML_wcExporter();
+			$this->wc_exporter = new WCML_wcExporter( $this->sitepress, $this->woocommerce_wpml );
+			$this->wc_exporter->add_hooks();
 		}
 
 		//Gravity Forms
@@ -218,10 +219,27 @@ class WCML_Compatibility {
 
 		// Woocommerce Memberships
 		if ( class_exists( 'WC_Memberships' ) ) {
-			$this->wc_memberships = new WCML_WC_Memberships();
+			$this->wc_memberships = new WCML_WC_Memberships( $this->sitepress->get_wp_api() );
 			$this->wc_memberships->add_hooks();
 		}
 
+		// MaxStore-Pro Theme
+		if ( function_exists( 'maxstore_pro_setup' ) ) {
+			$this->maxstore = new WCML_MaxStore();
+			$this->maxstore->add_hooks();
+		}
+
+		// MaxStore-Pro Theme
+		if ( defined( 'ETHEME_THEME_NAME') && 'Blanco' === ETHEME_THEME_NAME ) {
+			$this->etheme_blanco = new WCML_Etheme_Blanco();
+			$this->etheme_blanco->add_hooks();
+		}
+
+		// WPBakery Page Builder
+		if ( defined( 'WPB_VC_VERSION') ) {
+			$this->wpb_vc= new WCML_Wpb_Vc();
+			$this->wpb_vc->add_hooks();
+		}
 
 	}
 

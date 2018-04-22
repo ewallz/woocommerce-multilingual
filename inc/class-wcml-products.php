@@ -63,7 +63,6 @@ class WCML_Products{
 
         add_filter( 'wpml_override_is_translator', array( $this, 'wcml_override_is_translator' ), 10, 3 );
         add_filter( 'wc_product_has_unique_sku', array( $this, 'check_product_sku' ), 10, 3 );
-
     }
 
     // Check if original product
@@ -640,11 +639,24 @@ class WCML_Products{
         $is_per_domain = $this->sitepress->get_wp_api()->constant( 'WPML_LANGUAGE_NEGOTIATION_TYPE_DOMAIN' ) === (int) $this->sitepress->get_setting( 'language_negotiation_type' );
 
         if ( $is_per_domain ) {
-            $file_path = $this->sitepress->convert_url( $file_path );
+            $wpml_url_helper = new WPML_URL_Converter_Url_Helper();
+
+            if( strpos( trim( $file_path ), $wpml_url_helper->get_abs_home() ) === 0 ){
+	            $file_path = $this->sitepress->convert_url( $file_path );
+            }
         }
 
         return $file_path;
 
     }
+
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function is_product_display_as_translated_post_type() {
+		return apply_filters( 'wpml_is_display_as_translated_post_type', false, 'product' );
+	}
 
 }

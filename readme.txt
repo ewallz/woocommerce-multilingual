@@ -4,8 +4,8 @@ Donate link: http://wpml.org/documentation/related-projects/woocommerce-multilin
 Tags: CMS, woocommerce, commerce, ecommerce, e-commerce, products, WPML, multilingual, e-shop, shop
 License: GPLv2
 Requires at least: 3.9
-Tested up to: 4.8.1
-Stable tag: 4.2.3
+Tested up to: 4.9.1
+Stable tag: 4.2.9
 
 Allows running fully multilingual e-commerce sites using WooCommerce and WPML.
 
@@ -142,28 +142,87 @@ WooCommerce Multilingual is compatible with all major WooCommerce extensions. We
 
 == Changelog ==
 
-= 4.2.3 =
-* A fatal error occurred when deactivating WPML with WooCommerce Multilingual being active
+= 4.2.9 =
+* Fix wrong qty in cart page for same product and different language
+* Fix changes for WC 3.3 in order page for second language
+* Downloadable file paths always converted when "Different domain per language" chosen
+* Fix small error in automatic currency
+* Fix error in WC Reports in displaying sales by categories correctly for all languages
 
-= 4.2.2 =
-* Added a filter to include links to the String Translation table for custom options/settings in Woocommerce Gateway settings panel
-* Added logic to display a warning in the back-end when built in taxonomies translation status (set to 'translate') is overridden
-* Added the ability to translate the currency switcher format in String Translation
-* My account Bookings list page displays bookings in all languages
-* Updating variable product does not refresh product visibility terms
-* Currency switcher doesn't reload the product page if # is present in the URL
-* Fixed a PHP fatal error that was occurring when using WooCommerce Multilingual together with Sensei
-* The 'featured' product field was not synchronized across product translations
-* When updating a translation, the product translation slug was overwritten if product contains page builders fields
-* The 'reset password' form in a secondary language pointed to a 404 error
-* "product/%product_cat%" product permalink doesn't work for products without category assigned in second language if "Uncategorized" string not translated in String Translation module
-* It was not possible to set the custom price value in secondary currencies as '0'
-* It was not possible to translate attribute slugs if the attributes base was not translated
-* Currency switcher styles were not loaded when using only a shortcode currency switcher
-* The customer order email was sent in default language when the 'Processing' button was clicked on the back-end
+= 4.2.8.1 =
+* Fix error with WPML < 3.9
 
-= 4.2.1.1 =
-* WC Subscriptions compatibility error
+= 4.2.8 =
+* Visual Bakery Composer compatibility issue - some strings displays in default language instead on user admin language
+* Variable product with local attributes displays all variations values set to "any" with "use translation if available or fallback to default language" enabled for products
+* Product Customizer produce error messages
+* WooCommerce Subscriptions -> 'From....' price is not converted to current currency
+* Global add-on filtered by category - does not work in second language
+* [Fatal Error] WooCommerce Subscriptions -> Resubscribe with no multi-currency enabled
+* Variation downloadable files not synchronized with Products Download Files setting in the native editor
+* Incorrect category count in second languages
+* WooCommerce Subscription incorrect recurring totals in secondary currency
+* Manually set price (2nd currency) -> adding product to manually created order results in price of the first currency being used
+
+= 4.2.7.1 =
+* Fixed fatal error while updating to 4.2.7 with Woocommerce Bundles
+
+= 4.2.7 =
+* Translated attributes and "Display as translated" mode for products -> shows no variation in second language
+* Notices on front when Reset cart feature is enabled and WooCommerce version >= 2.3
+* Notice in edit order screen and empty comment added to the order (order note)
+* Woo Bundles product filtering for variable products does not work in second language
+* WooCommerce Subscriptions - > sign-up fee in the default currency does not work
+* Visiting customer-logout endpoint in the second language makes it re-register and sets the string as "Translation needs update"
+* Default attributes for variable products were not synchronized correctly for translated variable products.
+* Wrong "product" slug translation on product edit page
+* WooCommerce EU VAT - VAT set when exempt and doubled in second currency
+* WooCommerce widget for filtering by attribute when shop page is front/home page
+* Etheme Blanco compatibility - Inconsistency with minicart
+* Remove Yahoo service from available services because it was discontinued
+* Sync problems with Bundle product which contains one product two times in bundle items
+* Endpoints on my account page removed from the link URL
+
+= 4.2.6 =
+* WooCommerce Tab Manager categories aren't copied to translated tabs
+* Endpoint translation issue when submitting a job post on secondary languages [WP Job Manager]
+* After changing the payment method, the information is sent incorrectly in the email
+* WooCommerce Subscriptions plugin fatal error on the secondary language
+* Fix for Woocommerce Dynamic Pricing
+* WooCommerce subscriptions > Manually set sign-up fee is not respected
+* WoooCommerce Subscriptions -> changing currency and re-subscribing produces wrong price in the cart
+* Total sales not synced when not managing stocks
+* Adding to cart German product with custom attribute results in improper sanitized custom attribute name after the action is complete
+* WooCommerce Multilingual Translation editor -> Missing Custom Field label
+* WooCommerce Product Add-ons - Admin edit global addon screen shows previous value for name/descripton after update
+* Filtering by variation does not work for product bundle
+* Fix responsiveness of reset cart prompt
+
+= 4.2.5 =
+* Added 'wcml_hide_cart_alert_dialog' filter to support hide cart alert switching dialog
+* Cannot update Purchase note (any other custom field) once the job is completed
+* New order admin emails have un-translated heading and subject when admin language is different of default
+* Product in cart not adjusted to correct language when switching languages
+* WooCommerce Subscriptions -> Product with free trial has no payment method
+* Strings for subject and title are not translating for Refund emails
+* Page builder strings does not translate in a product when WCML is enabled
+* Fixed small glitch with no payment methods in free product with extra shipping cost
+* Fix an issue that caused fatal error in WooCommerce Store Exporter plugin
+* Fixed wrong output when using multiple categories in shortcodes
+* Fixed compatibility issue in WC Membership with wrong product url
+* Un-trashing product results of redirect to post listing in WCML
+* Fix a bug that the price calculation is not correct in combination with WC Bookings and WC Deposit plugin
+* MaxStore Pro theme compatibility for mini cart
+* Product price was doubled on cart in combination with Booking and Product Addons
+
+= 4.2.4 =
+* Allow translating categories used in shortcodes when the simple tax query is used
+* Switching language/currency reset cart feature redirect to random product page after reset cart
+* Fixed and incompatibility issue with the WooCommerce EU VAT Number extension
+* Wrong prices in secondary currency when applying coupons
+* Fixed a bug that was preventing adding multiple products to cart after changing the site language and resetting the cart
+* Fixed an incompatibility issue with WooCommerce Bookings: the layout of the conformation prompt from switching the cart was broken.
+* Serialized custom fields were translated incorrectly using the WooCommerce Multilingual Translation Editor
 
 = 4.2.1 =
 * Added the ability to set custom currencies for orders created via the REST API
@@ -172,7 +231,6 @@ WooCommerce Multilingual is compatible with all major WooCommerce extensions. We
 * Missing Woocommerce pages were created in default language
 * Fatal error while custom call not active currency switcher template
 * Duplicating from WooCommerce resulted in losing language data for the original product
-* Coupon with category restriction removed when switching language on cart page
 * PHP errors were shown on the admin dashboard when no orders existed and displaying errors was on
 * Fixed issue with problem in downloadable products in secondary language with different domain per language is enabled
 * A fatal error (undefiend get_current_screen) was occurring in some conditions on the WP admin side
@@ -192,7 +250,6 @@ WooCommerce Multilingual is compatible with all major WooCommerce extensions. We
 * Checkout Field Editor compatibility fix
 * Fixed issue with displaying custom prices in Bundles Products
 * Add filter for 'woocommerce_subscriptions_product_price'
-* Fixed compatibi;ity issue with coupos not applied correctly in a subscription product
 * The `wcml_raw_price_amount` filter could not be used to convert to a different currency than the current user currency
 
 = 4.2.0 =
@@ -207,7 +264,6 @@ WooCommerce Multilingual is compatible with all major WooCommerce extensions. We
 * A fatal error occurred when using old WordPress versions (before 4.4.0) - rest_get_url_prefix didn't exist
 * The admin orders page was loading slower than necessary
 * A PHP fatal error was occurring when using the Adventure Tours extension
-* A product addon was added to the cart more then once in combination with Bookings
 * For translated products, the product variation names were displayed in the old format (before WooCommerce 3.0)
 * The prices in the secondary currencies for products in secondary languages for products read via the REST API were incorrect
 * CSS for the currency switcher was loaded when the multi-currency was not enabled

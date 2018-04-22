@@ -88,30 +88,28 @@ class WCML_Orders{
         return $translations;
     }
 
-    function get_filtered_comments($comments){
+    function get_filtered_comments( $comments ){
 
         $user_id = get_current_user_id();
 
-        if( $user_id ){
-            
-            $user_language    = get_user_meta( $user_id, 'icl_admin_language', true );
+	    if ( $user_id ) {
+		    $user_language = get_user_meta( $user_id, 'icl_admin_language', true );
 
-            foreach($comments as $key=>$comment){
+		    foreach ( $comments as $key => $comment ) {
+			    $comment_string_id = icl_get_string_id( $comment->comment_content, 'woocommerce' );
 
-                $comment_string_id = icl_get_string_id( $comment->comment_content, 'woocommerce');
+			    if ( $comment_string_id ) {
+				    $comment_strings = icl_get_string_translations_by_id( $comment_string_id );
 
-                if($comment_string_id){
-                    $comment_strings = icl_get_string_translations_by_id( $comment_string_id );
-                    if($comment_strings){
-                        $comments[$key]->comment_content = $comment_strings[$user_language]['value'];
-                    }
-                }
-            }        
-            
-        }
+				    if ( $comment_strings && isset( $comment_strings[ $user_language ] ) ) {
+					    $comments[ $key ]->comment_content = $comment_strings[ $user_language ][ 'value' ];
+				    }
+			    }
+		    }
+
+	    }
 
         return $comments;
-
     }
     
     function woocommerce_order_get_items( $items, $order ){
@@ -174,31 +172,17 @@ class WCML_Orders{
                         }
 
                         $tr_product_id = apply_filters( 'translate_object_id', $item_product_id, 'product', false, $language_to_filter );
+
                         if( !is_null( $tr_product_id ) ){
                             $item->set_product_id( $tr_product_id );
                             $item->set_name( get_post( $tr_product_id )->post_title );
                         }
+
                         $tr_variation_id = apply_filters( 'translate_object_id', $item->get_variation_id(), 'product_variation', false, $language_to_filter );
-                        if( !is_null( $tr_variation_id ) ){
-                            $item->set_variation_id( $tr_variation_id );
-                        }
-
-                        $meta_data = array();
-                        foreach( $item->get_meta_data() as $data ){
-
-                            if( substr( $data->key, 0, 3) == 'pa_' ){
-                                $term_id = $this->woocommerce_wpml->terms->wcml_get_term_id_by_slug( $data->key, $data->value  );
-                                $tr_id = apply_filters( 'translate_object_id', $term_id, $data->key, false, $language_to_filter );
-
-                                if(!is_null($tr_id)){
-                                    $translated_term = $this->woocommerce_wpml->terms->wcml_get_term_by_id( $tr_id, $data->key);
-                                    $data->value = $translated_term->slug;
-                                }
-                            }
-
-                            $meta_data[] = $data;
-
-                        }
+	                    if ( ! is_null( $tr_variation_id ) ) {
+		                    $item->set_variation_id( $tr_variation_id );
+		                    $item->set_name( wc_get_product( $tr_variation_id )->get_name() );
+	                    }
                     }
                 }elseif( $item instanceof WC_Order_Item_Shipping ){
                     if( $item->get_method_id() ){
